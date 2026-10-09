@@ -1,93 +1,145 @@
-# Wdrożenie
+<p align="center">
+  <img src="Assets/NeuroSniperIcon.png" alt="Neurosniper icon" width="128">
+</p>
 
+<h1 align="center">Neurosniper</h1>
 
+<p align="center">
+  A sniper game controlled partly by your brain. An EEG headset reads your attention and meditation in real time, and they decide how steady your aim is.
+</p>
 
-## Getting started
+---
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## About the game
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+You start on a random rooftop above a busy city street with a sniper rifle. Somewhere in the crowd is your target. All you get is a short description, for example *"He is wearing a black suit and is acting nervously"*. Find him and take him out before the clock runs out.
 
-## Add your files
+The catch is that your rifle responds to your mind:
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+- **Attention** keeps your shots accurate. The more focused you are, the less your bullets scatter and the less quickly the scope trembles.
+- **Meditation** keeps your hands steady. The calmer you are, the less the scope sways.
+
+If the headset isn't connected or the signal is poor, the game assumes you're as distracted and tense as possible, so aiming is at its hardest.
+
+## How to play
+
+1. In the main menu, choose **Play**, pick a level and a rifle, and start.
+2. Read the target's description on the HUD and scan the crowd through the scope.
+3. Shoot the target. With the default rifle, a headshot kills in one hit, torso shots take two, and limb shots take more.
+4. You win when the target is dead. You lose if the 2-minute timer runs out.
+
+Things that make it harder:
+
+- **Gunshots cause panic.** Every shot sends nearby NPCs running, including the target.
+- **The drone.** A drone with a searchlight patrols the area. If its light finds you, you're warned with *"You have been detected!"* and the whole crowd panics.
+
+### Controls
+
+| Action | Key |
+|---|---|
+| Move | `W` `A` `S` `D` / arrow keys |
+| Sprint | `Left Shift` |
+| Look around | Mouse |
+| Aim through the scope | Hold `Right mouse button` |
+| Zoom (while aiming) | Mouse wheel |
+| Shoot | `Left mouse button` / `Enter` |
+| Pause | `Esc` / `Space` |
+
+### HUD
+
+- **Attention Level** and **Meditation Level** bars show the values coming from the headset (0–100%).
+- The **brain icon** shows signal quality, from red (no signal) to green (good signal). EEG only affects aiming while it's fully green.
+
+## EEG headset setup
+
+Neurosniper reads EEG through the **ThinkGear protocol** used by NeuroSky headsets, such as the MindWave Mobile.
+
+1. Pair the headset with your computer.
+2. Start **ThinkGear Connector**. The game expects it at `127.0.0.1:13854`.
+3. Start the game **after** ThinkGear Connector is running. The game only tries to connect once, at startup.
+4. Put the headset on and wait for the brain icon to turn fully green.
+
+The game is fully playable without a headset; aiming is just at its hardest.
+
+Any program that implements the ThinkGear JSON protocol on the same port works too. For example, you could feed values from a different EEG device through a bridge.
+
+## Running the project
+
+### Requirements
+
+- **Unity 6000.0.47f1** (Unity 6). Install it through Unity Hub.
+- **Git** on your `PATH`. Unity needs it to download the Newtonsoft JSON package, which is installed from GitHub.
+- An EEG headset is optional.
+
+Built with the Universal Render Pipeline (URP), Cinemachine 3, the Input System and AI Navigation.
+
+### Open and play in the editor
+
+1. Clone the repository. The git history contains large asset files, so expect a download of about 2 GB.
+   ```bash
+   git clone git@github.com:KN-Neuron/Neurosniper.git
+   ```
+2. In Unity Hub, choose **Add → Add project from disk** and select the cloned folder. The first import takes a while.
+3. Open `Assets/Scenes/MainMenu.unity` and press **Play**. You can also open `Assets/Scenes/Level1.unity` to jump straight into the level.
+
+### Build
+
+Open **File → Build Profiles**, check that the scene list contains `MainMenu` and `Level1` (in that order), and build for your platform.
+
+`GameExe/` contains an older prebuilt Windows build. It doesn't include the latest changes, such as the performance fixes, so prefer building from source.
+
+## Project structure
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/kn-neuron/okres-wdrozeniowy/wdrozenie.git
-git branch -M main
-git push -uf origin main
+Assets/
+├── Scripts/
+│   ├── Camera/     Aim camera, zoom, EEG-driven scope sway, recoil
+│   ├── EEG/        ThinkGear connection (EEGManager), HUD bars, signal icon, detection message
+│   ├── Weapons/    Shooting, EEG-driven bullet scatter, bullets
+│   ├── NPC/        NPC types and their behaviour states (idle, walking, phone, panic, ...)
+│   ├── Entities/   Health, hitboxes, per-body-part damage multipliers, ragdoll interface
+│   ├── Mission/    Win/lose conditions and the end-of-game flow
+│   ├── Player/     Movement and random spawning
+│   ├── Drone/      Searchlight drone that can spot the player
+│   ├── PathC/      Moves the drone along its path
+│   ├── Menu/       Main menu, level and weapon selection, settings, mission timer
+│   └── Utils/      Game manager (pause, end screens), input wrapper, constants
+├── Prefabs/        Player, NPC variants, Drone, UI
+├── Scenes/         MainMenu and Level1 (in the build); ShootTest and SampleScene are for testing
+└── Settings/       URP render pipeline assets and volume profiles
+GameExe/            Older prebuilt Windows build
 ```
 
-## Integrate with your tools
+## Known limitations
 
-- [ ] [Set up project integrations](https://gitlab.com/kn-neuron/okres-wdrozeniowy/wdrozenie/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+- **Weapon choice is cosmetic.** The weapon selection screen shows each rifle's stats, but in-game you always get the rifle configured on the Player prefab.
+- **There's only one level**, and level unlocking isn't connected to winning yet.
+- **Shooting the wrong person doesn't count as a failure.** The only way to lose is running out of time.
+- **EEG connection is attempted only at startup.** If ThinkGear Connector starts after the game, restart the game.
 
 ## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+- Support for multi-channel research EEG caps through a separate LSL-based service that speaks the same ThinkGear protocol.
+- Weapon stats that affect gameplay, including how strongly each rifle reacts to attention and meditation.
+- More levels and level progression.
+- Automatic reconnection to the EEG source.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+## Third-party assets
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+This project uses the following assets, each covered by its own license:
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+- **Synty Studios**: POLYGON City, POLYGON Adventure, POLYGON Knights
+- **Polytope Studio**: Lowpoly Environments (Nature)
+- **Unity**: Terrain Sample Assets
+- **Handpainted Grass and Ground Textures**
+- **TooManyCrosshairs**: scope and crosshair graphics
+- **CorePro**: Flat Pack UI icons and fonts
+- **Explosive LLC**: RPG Character Mecanim Animation Pack FREE
+- **ithappy**: Weapons FREE
+- **UI Soundpack**: menu sounds
+- **Sebastian Lague**: Path Creator
+- **TextMesh Pro**
 
-## License
-For open source projects, say how it is licensed.
+## Authors
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Made by members of [KN Neuron](https://github.com/KN-Neuron).
