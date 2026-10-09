@@ -29675,10 +29675,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3462795121637901242, guid: 5bf355083a338ca48983fd8e65a9be20, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: c2c57b1b4f9d3704d9f357891b58e39c, type: 3}
     - target: {fileID: 6983542921924465000, guid: 5bf355083a338ca48983fd8e65a9be20, type: 3}
       propertyPath: m_Name
       value: NavMeshBlocker
@@ -45616,10 +45612,6 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3462795121637901242, guid: 5bf355083a338ca48983fd8e65a9be20, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: d2f070cd5ff727444b009fe4caa8fe76, type: 3}
     - target: {fileID: 6983542921924465000, guid: 5bf355083a338ca48983fd8e65a9be20, type: 3}
       propertyPath: m_Name
       value: NavMeshBlocker
