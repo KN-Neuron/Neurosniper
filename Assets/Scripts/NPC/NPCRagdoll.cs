@@ -22,15 +22,14 @@ public class NPCRagdoll : MonoBehaviour, IRagdoll
         if (collider != null)
             collider.enabled = false;
 
+        // Bodies are kinematic while alive (see BodyHitBox), so they have no leftover velocity.
+        // Interpolation and continuous collision are only needed once the ragdoll is simulated.
         foreach (var body in allBodies)
         {
-            body.linearVelocity = Vector3.zero;
-            body.angularVelocity = Vector3.zero;
-            body.isKinematic = true;
-        }
-
-        foreach (var body in allBodies)
             body.isKinematic = false;
+            body.interpolation = RigidbodyInterpolation.Interpolate;
+            body.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        }
     }
 
     public void ApplyForceToRagdoll(Vector3 hitPoint, Vector3 hitDirection, float bulletForce)
