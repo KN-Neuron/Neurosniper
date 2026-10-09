@@ -8,6 +8,7 @@ public class Timer : EndCondition, ILoseCondition
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] float startTime = 120f;
     private float timeRemaining;
+    private int lastDisplayedSeconds = -1;
 
     private void Start()
     {
@@ -29,6 +30,12 @@ public class Timer : EndCondition, ILoseCondition
         timeRemaining -= Time.deltaTime;
         int minutes = Mathf.FloorToInt(timeRemaining / 60F);
         int seconds = Mathf.FloorToInt(timeRemaining - minutes * 60);
+
+        // Only rebuild the text when the displayed value changes, not every frame
+        int displayedSeconds = minutes * 60 + seconds;
+        if (displayedSeconds == lastDisplayedSeconds) return;
+        lastDisplayedSeconds = displayedSeconds;
+
         timerText.text = "Remaining time:\n" + string.Format("{0:0}:{1:00}", minutes, seconds);
     }
 

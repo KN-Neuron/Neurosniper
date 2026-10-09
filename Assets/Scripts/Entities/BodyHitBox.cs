@@ -21,11 +21,13 @@ public class BodyHitBox : MonoBehaviour, IDamageable
 
         damageMultiplayer = DamageMultipliers.GetDamageMultiplayer(gameObject.tag);
 
-        //rigidbody setup
+        //rigidbody setup - kinematic while alive, so the animator drives the bones and physics
+        //doesn't simulate the ragdoll every frame. NPCRagdoll.EnableRagdoll makes it dynamic on death.
+        //Raycasts still hit kinematic colliders, so hit detection is unaffected.
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = false;
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.interpolation = RigidbodyInterpolation.None;
+        rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        rb.isKinematic = true;
 
         //layer setup
         gameObject.layer = GameLayers.HITBOX_LAYER;
