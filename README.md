@@ -23,9 +23,11 @@ If the headset isn't connected or the signal is poor, the game assumes you're as
 
 ## Download
 
-Prebuilt versions are on the [Releases page](https://github.com/KN-Neuron/Neurosniper/releases). There's currently a Linux build; on Windows, [build the game from source](#build).
+Prebuilt versions for Windows and Linux are on the [Releases page](https://github.com/KN-Neuron/Neurosniper/releases).
 
-To run the Linux build, download the `.tar.gz` file from the latest release, then extract and start it:
+**Windows:** download the `Neurosniper-windows-x64-*.zip` file from the latest release, extract it, and run `Neurosniper\NeuroSniper.exe`.
+
+**Linux:** download the `Neurosniper-linux-x86_64-*.tar.gz` file from the latest release, then extract and start it:
 
 ```bash
 tar -xzf Neurosniper-linux-x86_64-*.tar.gz
