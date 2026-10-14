@@ -21,6 +21,17 @@ The catch is that your rifle responds to your mind:
 
 If the headset isn't connected or the signal is poor, the game assumes you're as distracted and tense as possible, so aiming is at its hardest.
 
+## Download
+
+Prebuilt versions are on the [Releases page](https://github.com/KN-Neuron/Neurosniper/releases). There's currently a Linux build; on Windows, [build the game from source](#build).
+
+To run the Linux build, download the `.tar.gz` file from the latest release, then extract and start it:
+
+```bash
+tar -xzf Neurosniper-linux-x86_64-*.tar.gz
+./Neurosniper/Neurosniper.x86_64
+```
+
 ## How to play
 
 1. In the main menu, choose **Play**, pick a level and a rifle, and start.
@@ -86,7 +97,7 @@ Built with the Universal Render Pipeline (URP), Cinemachine 3, the Input System 
 
 Open **File → Build Profiles**, check that the scene list contains `MainMenu` and `Level1` (in that order), and build for your platform.
 
-`GameExe/` contains an older prebuilt Windows build. It doesn't include the latest changes, such as the performance fixes, so prefer building from source.
+Don't commit builds to the repository. `GameExe/` and `Builds/` are ignored by git; publish builds as files on a [release](https://github.com/KN-Neuron/Neurosniper/releases) instead.
 
 ## Project structure
 
@@ -107,7 +118,6 @@ Assets/
 ├── Prefabs/        Player, NPC variants, Drone, UI
 ├── Scenes/         MainMenu and Level1 (in the build); ShootTest and SampleScene are for testing
 └── Settings/       URP render pipeline assets and volume profiles
-GameExe/            Older prebuilt Windows build
 ```
 
 ## Known limitations
